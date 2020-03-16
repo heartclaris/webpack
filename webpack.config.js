@@ -40,8 +40,38 @@ minimizer:[
       filename:'main.css'
     })
   ],
+  externals:{
+    jquery:'jquery'
+  },
   module:{
     rules:[
+      {
+        test:/\.html$/,
+        use:'html-withimg-loader'
+    },
+      {
+        test:/\.(png|jpg|gif)$/,
+        use:{
+          loader:'url-loader',
+          options:{
+            limit:1,
+            outputPath:'img/'
+          }
+        }
+      },
+      {
+        test:require.resolve('jquery'),
+        use:'expose-loader?$!jquery'
+      },
+      { test:/\.js$/,
+        use:{
+          loader:'eslint-loader',
+          options:{
+            enfore:'pre'
+          }
+        }
+
+      },
       {
         test:/\.js$/,
         use:{
@@ -52,10 +82,13 @@ minimizer:[
             ],
             plugins:[
               ["@babel/plugin-proposal-decorators", { "legacy": true }],
-              ["@babel/plugin-proposal-class-properties", { "loose" : true }]
+              ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+              "@babel/plugin-transform-runtime"
             ]
           }
-        }
+        },
+        include:path.resolve(__dirname,'src'),
+        exclude:/node_modules/
       },
       {
         test:/\.css$/,
