@@ -37,7 +37,7 @@ minimizer:[
       hash:true
     }),
     new MiniCssExtractPlugin({
-      filename:'main.css'
+      filename:'css/main.css'
     })
   ],
   externals:{
